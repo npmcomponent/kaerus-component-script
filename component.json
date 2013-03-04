@@ -1,8 +1,8 @@
 {
 	"name": "script",
 	"version": "0.0.1",
-	"repo":"kaerus/component/script",
+	"repo":"kaerus-component/script",
 	"description": "script loader",
 	"scripts": ["index.js"],
-	"dependencies":{"kaerus/component/promise":"*"}
+	"dependencies":{"kaerus-component/promise":"*"}
 }
