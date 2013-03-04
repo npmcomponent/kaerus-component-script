@@ -1,4 +1,5 @@
-var Promise = require('promise');
+var Promise = require('promise'),
+    Event = require('event');
 
 var cached = {}; 
  // Script ////////////////////////////////////////////////////////////////////////////
@@ -21,11 +22,11 @@ function Script(file,timeout) {
     script.defer = true;
 
     function onloaded(event) {
-        loaded.attach(file).fulfill(event);
+        loaded.attach(file).fulfill(Event.normalize(event));
     }
 
     function onerror(event) {
-        loaded.attach(file).reject(event);
+        loaded.attach(file).reject(Event.normalize(event));
     }
 
     if(script.readyState) {
