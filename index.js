@@ -4,29 +4,36 @@ var Promise = require('promise'),
 var cached = {}; 
  // Script ////////////////////////////////////////////////////////////////////////////
 
-function Script(file,timeout) {
+function Script(file,options) {
     var loaded = cached[file];
 
     if(loaded) return loaded;
 
     loaded = cached[file] = new Promise();
 
-    if(timeout) loaded.timeout(timeout);
+    options = options ? options : {};
+        
+    if(!isNaN(options)) options = {timeout:options};
+    if(options.timeout) loaded.timeout(options.timeout);
 
     var head = document.getElementsByTagName("head")[0];
     var script = document.createElement("script");
 
-    /* add timestamp to bypass cache */
-    script.src = file+'?'+Date.now();
-    script.async = true;
-    script.defer = true;
+    /* todo: include ajax loading options.ajax */
+
+    /* timestamp src to bypass browser cache */
+    script.src = file + (options.cache ? '' : '?'+Date.now());
+    script.async = options.async || true;
+    script.defer = options.defer || true;
 
     function onloaded(event) {
-        loaded.attach(file).fulfill(Event.normalize(event));
+        event = Event.normalize(event);
+        loaded.attach(event).fulfill(file);
     }
 
     function onerror(event) {
-        loaded.attach(file).reject(Event.normalize(event));
+        event = Event.normalize(event);
+        loaded.attach(event).reject(file);
     }
 
     if(script.readyState) {
