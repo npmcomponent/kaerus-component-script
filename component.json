@@ -7,5 +7,6 @@
 	"dependencies":{
 		"kaerus-component/promise":"*",
 		"kaerus-component/event":"*"
-	}
+	},
+	"license": "Apache2_0"
 }
