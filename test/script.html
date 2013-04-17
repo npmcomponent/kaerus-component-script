@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+	<title>Script test</title>
+</head>
+<body>
+	
+	<script src="../build/build.js"></script>
+	<script>
+		var Script = require('script');
+
+		Script("hello.js",{cache:false,stamp:'?1'}).then(function(){
+			console.log("Test(1) Loaded <script>:");
+		},function(error){
+			console.log("Test(1) Script error:", error);
+		});
+
+
+		Script("hello.js",{cache:false,async:false,stamp:'?2'}).then(function(){
+			console.log("Test(2) Loaded <script> async:false");
+		},function(error){
+			console.log("Test(2) Script error:", error);
+		});
+
+
+		Script("hello.js",{cache:false,async:false,defer:false,stamp:'?3'}).then(function(){
+			console.log("Test(3) Loaded <script> async:false defer:false");
+		},function(error){
+			console.log("Test(3) Script error:", error);
+		});
+
+
+		Script("hello.js",{cache:false,ajax:true,stamp:'?4'}).then(function(){
+			console.log("Test(4) Loaded using ajax");
+		},function(error){
+			console.log("Test(4) Script error:", error);
+		});
+
+
+		Script("hello.js",{cache:false,ajax:true,async:false,stamp:'?5'}).then(function(){
+			console.log("Test(5) Loaded using ajax async:false");
+		},function(error){
+			console.log("Test(5) Script error:", error);
+		});
+
+
+		/* with cache */
+		Script("hello.js").then(function(){
+			console.log("Test(6) Loaded <script>:");
+		},function(error){
+			console.log("Test(6) Script error:", error);
+		});
+
+		/* no timestamp should be outputted */
+		Script("hello.js").then(function(){
+			console.log("Test(7) Loaded <script>:");
+		},function(error){
+			console.log("Test(7) Script error:", error);
+		});
+
+	</script>
+</body>
+</html>

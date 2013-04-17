@@ -1,0 +1,1 @@
+console.log("OK timestamp: %s uid:", new Date(), Math.floor(Math.random(999)*1000+1));
