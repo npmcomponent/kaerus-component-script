@@ -19,6 +19,7 @@ function Script(file,options) {
     else if(options.stamp === false) options.stamp = '';
     if(options.async === undefined) options.async = true;
     if(options.defer === undefined) options.defer = true;
+    if(!options.type) options.type = 'application/javascript';
 
 
     function onloaded(event) {
@@ -32,7 +33,7 @@ function Script(file,options) {
     }
 
     if(options.ajax){
-        loaded = Ajax.get(file+options.stamp,{timeout:options.timeout});
+        loaded = Ajax.get(file+options.stamp,{timeout:options.timeout,accept:options.type});
 
         loaded.then(function(code){
             global.eval(code);
