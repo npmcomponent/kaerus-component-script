@@ -7,7 +7,7 @@ var Promise = require('promise'),
 var cached = {}, global = window; 
  
 function Script(file,options) {
-    var loaded = cached[file], stamp = '';
+    var loaded = cached[file], stamp = '', head, child;
 
     options = options ? options : {};
     
@@ -15,16 +15,26 @@ function Script(file,options) {
     if(options.cache === undefined) options.cache = true;
     if(options.cache && loaded) return loaded;    
     if(options.timeout === undefined) options.timeout = 5000;
-    if(options.stamp === undefined||options.stamp === true) options.stamp = '?' + Date.now();
+    
+    // stamp to circumvent the browser cache
+    if(options.stamp === undefined||options.stamp === true){
+        var timestamp = Date.now();
+        if(file.indexOf('?') < 0 ) options.stamp = '?' + timestamp;
+        else options.stamp = '&' + timestamp;
+    }    
     else if(options.stamp === false) options.stamp = '';
+    
     if(options.async === undefined) options.async = true;
     if(options.defer === undefined) options.defer = true;
     if(!options.type) options.type = 'application/javascript';
 
-
     function onloaded(event) {
         event = Event.normalize(event);
         loaded.fulfill(event);
+
+        // detach script from head
+        if(options.detach && head && script) 
+            head.removeChild(script);
     }
 
     function onerror(event) {
@@ -44,8 +54,8 @@ function Script(file,options) {
 
         loaded.timeout(options.timeout);
 
-        var head = document.getElementsByTagName("head")[0];
-        var script = document.createElement("script");
+        head = document.getElementsByTagName("head")[0];
+        script = document.createElement("script");
 
         script.src = file + options.stamp;
         script.async = options.async;
