@@ -67,8 +67,6 @@ function Script(file,options) {
                     this.readyState === "complete") {
                     this.onreadystatechange = null;
                     onloaded(event);
-                } else {
-                    onerror(event);
                 }   
             }
         } else {
