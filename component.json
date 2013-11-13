@@ -1,13 +1,15 @@
 {
-	"name": "script",
-	"version": "0.1.4",
-	"repo":"kaerus-component/script",
-	"description": "script loader",
-	"scripts": ["index.js"],
-	"dependencies":{
-		"kaerus-component/promise":"*",
-		"kaerus-component/event":"*",
-		"kaerus-component/ajax":"*"
-	},
-	"license": "Apache2_0"
+  "name": "script",
+  "version": "0.1.5",
+  "repo": "kaerus-component/script",
+  "description": "script loader",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "kaerus-component/uP": "*",
+    "kaerus-component/event": "*",
+    "kaerus-component/ajax": "*"
+  },
+  "license": "Apache2_0"
 }

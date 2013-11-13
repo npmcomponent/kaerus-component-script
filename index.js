@@ -1,6 +1,6 @@
 // Script ////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2012-2013 Kaerus (kaerus.com), Anders Elo <anders @ kaerus com>. 
-var Promise = require('promise'),
+var Promise = require('micropromise'),
     Event = require('event'),
     Ajax = require('ajax');
 
@@ -30,6 +30,7 @@ function Script(file,options) {
 
     function onloaded(event) {
         event = Event.normalize(event);
+        loaded.timeout(null);
         loaded.fulfill(event);
 
         // detach script from head
