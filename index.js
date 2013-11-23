@@ -83,4 +83,24 @@ function Script(file,options) {
     return loaded;
 }
 
+
+var SCRIPT = /<script\b(.*)[^>]*>([\s\S]*?)<\/script>/gm;
+
+Script.parse = function(html){
+    var script, scr, type;
+
+    while (script = SCRIPT.exec(html)) {
+        if((src = script[1].match(/src=\"(.+)\"/))) {
+            Script(src).done();
+        } 
+        else {
+            type = script[1].match(/type=\"(.+)\"/);
+            if(script[2] && (!type || type[1] === 'text/javascript')) {
+                /* todo: consider injecting into head to get better traces */
+                global.eval(script[2]);
+            }
+        }
+    }
+}
+
 module.exports = Script;
