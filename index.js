@@ -4,10 +4,14 @@ var Promise = require('micropromise'),
     Event = require('event'),
     Ajax = require('ajax');
 
-var cached = {}, global = window; 
+var global = window;
+
+var cached = {};
  
 function Script(file,options) {
-    var loaded = cached[file], stamp = '', head, child;
+    var loaded = cached[file], 
+        source, stamp = '', 
+        head, child, promise;
 
     options = options ? options : {};
     
@@ -28,10 +32,12 @@ function Script(file,options) {
     if(options.defer === undefined) options.defer = true;
     if(!options.type) options.type = 'application/javascript';
 
+    source = file + options.stamp;
+
     function onloaded(event) {
         event = Event.normalize(event);
         loaded.timeout(null);
-        loaded.fulfill(event);
+        loaded.fulfill(source);
 
         // detach script from head
         if(options.detach && head && script) 
@@ -43,22 +49,29 @@ function Script(file,options) {
         loaded.reject(event);
     }
 
-    if(options.ajax){
-        loaded = Ajax.get(file+options.stamp,{timeout:options.timeout,accept:options.type});
+    loaded = new Promise();
 
-        loaded.then(function(code){
-            global.eval(code);
-        });
+    if(options.ajax){
+        loaded = Ajax.get(source, {
+                timeout:options.timeout,
+                accept:options.type
+            },
+            null,
+            loaded).then(function(code){
+                try {                  
+                    return new Function('exports',code + ';return exports')(Object.create(null));
+                } catch(error) {
+                    if(console.error) console.error(source,error);
+                    else console.log(source, error);
+                }
+            });
     }
     else {
-        loaded = new Promise();
-
-        loaded.timeout(options.timeout);
-
+        loaded.timeout(options.timeout);        
         head = document.getElementsByTagName("head")[0];
         script = document.createElement("script");
 
-        script.src = file + options.stamp;
+        script.src = source;
         script.async = options.async;
         script.defer = options.defer;
 
@@ -82,7 +95,6 @@ function Script(file,options) {
 
     return loaded;
 }
-
 
 var SCRIPT = /<script\b(.*)[^>]*>([\s\S]*?)<\/script>/gm;
 
