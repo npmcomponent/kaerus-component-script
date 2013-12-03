@@ -1,6 +1,6 @@
 {
   "name": "script",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "repo": "kaerus-component/script",
   "description": "script loader",
   "scripts": [
@@ -8,7 +8,6 @@
   ],
   "dependencies": {
     "kaerus-component/uP": "*",
-    "kaerus-component/event": "*",
     "kaerus-component/ajax": "*"
   },
   "license": "Apache2_0"

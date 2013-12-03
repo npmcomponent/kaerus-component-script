@@ -1,7 +1,6 @@
 // Script ////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2012-2013 Kaerus (kaerus.com), Anders Elo <anders @ kaerus com>. 
 var Promise = require('micropromise'),
-    Event = require('event'),
     Ajax = require('ajax');
 
 var global = window;
@@ -35,7 +34,6 @@ function Script(file,options) {
     source = file + options.stamp;
 
     function onloaded(event) {
-        event = Event.normalize(event);
         loaded.timeout(null);
         loaded.fulfill(source);
 
@@ -45,7 +43,7 @@ function Script(file,options) {
     }
 
     function onerror(event) {
-        event = Event.normalize(event);
+        event = event || window.event;
         loaded.reject(event);
     }
 
@@ -101,7 +99,7 @@ var SCRIPT = /<script\b(.*)[^>]*>([\s\S]*?)<\/script>/gm;
 Script.parse = function(html){
     var script, scr, type;
 
-    while (script = SCRIPT.exec(html)) {
+    while ((script = SCRIPT.exec(html))) {
         if((src = script[1].match(/src=\"(.+)\"/))) {
             Script(src).done();
         } 
