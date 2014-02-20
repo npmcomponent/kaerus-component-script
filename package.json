@@ -1,0 +1,10 @@
+{
+  "name": "kaerus-component-script",
+  "description": "script loader",
+  "version": "0.1.8",
+  "dependencies": {
+    "kaerus-component-uP": "git://github.com/npmcomponent/kaerus-component-uP.git",
+    "kaerus-component-ajax": "git://github.com/npmcomponent/kaerus-component-ajax.git"
+  },
+  "license": "Apache2_0"
+}

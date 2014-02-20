@@ -1,7 +1,7 @@
 // Script ////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2012-2013 Kaerus (kaerus.com), Anders Elo <anders @ kaerus com>. 
-var Promise = require('micropromise'),
-    Ajax = require('ajax');
+// commented out by npm-component: var Promise = require('micropromise'),
+    Ajax = require('ajax');'kaerus-component-ajax'
 
 var global = window;
 
